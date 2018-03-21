@@ -25,23 +25,23 @@ class Action
     /**
      * Get edit area id for specific type
      *
-     * @param CBitrixComponentTemplate $template
+     * @param CBitrixComponentTemplate|CBitrixComponent $componentOrTemplate
      * @param $type
      * @param $element
      * @return string
      */
-    public static function getEditArea($template, $type, $element)
+    public static function getEditArea($componentOrTemplate, $type, $element)
     {
         $id = is_numeric($element) ? $element : $element['ID'];
-        return $template->GetEditAreaId("{$type}_{$id}");
+        return $componentOrTemplate->GetEditAreaId("{$type}_{$id}");
     }
 
     /**
-     * @param CBitrixComponentTemplate $template
+     * @param CBitrixComponentTemplate|CBitrixComponent $componentOrTemplate
      * @param $element
      * @return string
      */
-    public static function editIBlockElement($template, $element)
+    public static function editIBlockElement($componentOrTemplate, $element)
     {
         if (!$GLOBALS['APPLICATION']->GetShowIncludeAreas()) {
             return '';
@@ -57,18 +57,18 @@ class Action
         $buttons = static::getIBlockElementPanelButtons($element);
         $link = $buttons["edit"]["edit_element"]["ACTION_URL"];
 
-        $template->AddEditAction('iblock_element_' . $element['ID'], $link, CIBlock::GetArrayByID($element["IBLOCK_ID"], "ELEMENT_EDIT"));
+        $componentOrTemplate->AddEditAction('iblock_element_' . $element['ID'], $link, CIBlock::GetArrayByID($element["IBLOCK_ID"], "ELEMENT_EDIT"));
 
-        return static::areaForIBlockElement($template, $element);
+        return static::areaForIBlockElement($componentOrTemplate, $element);
     }
 
     /**
-     * @param CBitrixComponentTemplate $template
+     * @param CBitrixComponentTemplate|CBitrixComponent $componentOrTemplate
      * @param $element
      * @param string $confirm
      * @return string
      */
-    public static function deleteIBlockElement($template, $element, $confirm = null)
+    public static function deleteIBlockElement($componentOrTemplate, $element, $confirm = null)
     {
         $confirm = $confirm ?: Loc::getMessage('ARRILOT_BITRIX_HERMITAGE_DELETE_IBLOCK_ELEMENT_CONFIRM');
 
@@ -87,39 +87,39 @@ class Action
         $buttons = static::getIBlockElementPanelButtons($element);
         $link = $buttons["edit"]["delete_element"]["ACTION_URL"];
 
-        $template->AddDeleteAction('iblock_element_' . $element['ID'], $link, CIBlock::GetArrayByID($element["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => $confirm));
+        $componentOrTemplate->AddDeleteAction('iblock_element_' . $element['ID'], $link, CIBlock::GetArrayByID($element["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => $confirm));
 
-        return static::areaForIBlockElement($template, $element);
+        return static::areaForIBlockElement($componentOrTemplate, $element);
     }
 
     /**
-     * @param CBitrixComponentTemplate $template
+     * @param CBitrixComponentTemplate|CBitrixComponent $componentOrTemplate
      * @param $element
      * @return string
      */
-    public static function editAndDeleteIBlockElement($template, $element)
+    public static function editAndDeleteIBlockElement($componentOrTemplate, $element)
     {
-        static::editIBlockElement($template, $element);
+        static::editIBlockElement($componentOrTemplate, $element);
 
-        return static::deleteIBlockElement($template, $element);
+        return static::deleteIBlockElement($componentOrTemplate, $element);
     }
 
     /**
-     * @param CBitrixComponentTemplate $template
+     * @param CBitrixComponentTemplate|CBitrixComponent $componentOrTemplate
      * @param $element
      * @return string
      */
-    public static function areaForIBlockElement($template, $element)
+    public static function areaForIBlockElement($componentOrTemplate, $element)
     {
-        return static::getEditArea($template, 'iblock_element', $element);
+        return static::getEditArea($componentOrTemplate, 'iblock_element', $element);
     }
 
     /**
-     * @param CBitrixComponentTemplate $template
+     * @param CBitrixComponentTemplate|CBitrixComponent $componentOrTemplate
      * @param $section
      * @return string
      */
-    public static function editIBlockSection($template, $section)
+    public static function editIBlockSection($componentOrTemplate, $section)
     {
         if (!$GLOBALS['APPLICATION']->GetShowIncludeAreas()) {
             return '';
@@ -136,18 +136,18 @@ class Action
         $buttons = static::getIBlockSectionPanelButtons($section);
         $link = $buttons["edit"]["edit_section"]["ACTION_URL"];
 
-        $template->AddEditAction('iblock_section_' . $section['ID'], $link, CIBlock::GetArrayByID($section["IBLOCK_ID"], "SECTION_EDIT"));
+        $componentOrTemplate->AddEditAction('iblock_section_' . $section['ID'], $link, CIBlock::GetArrayByID($section["IBLOCK_ID"], "SECTION_EDIT"));
 
-        return static::areaForIBlockSection($template, $section);
+        return static::areaForIBlockSection($componentOrTemplate, $section);
     }
 
     /**
-     * @param CBitrixComponentTemplate $template
+     * @param CBitrixComponentTemplate|CBitrixComponent $componentOrTemplate
      * @param $section
      * @param string $confirm
      * @return string
      */
-    public static function deleteIBlockSection($template, $section, $confirm = null)
+    public static function deleteIBlockSection($componentOrTemplate, $section, $confirm = null)
     {
         $confirm = $confirm ?: Loc::getMessage("ARRILOT_BITRIX_HERMITAGE_DELETE_IBLOCK_SECTION_CONFIRM");
 
@@ -166,40 +166,40 @@ class Action
         $buttons = static::getIBlockSectionPanelButtons($section);
         $link = $buttons["edit"]["delete_section"]["ACTION_URL"];
 
-        $template->AddDeleteAction('iblock_section_' . $section['ID'], $link, CIBlock::GetArrayByID($section["IBLOCK_ID"], "SECTION_DELETE"), array("CONFIRM" => $confirm));
+        $componentOrTemplate->AddDeleteAction('iblock_section_' . $section['ID'], $link, CIBlock::GetArrayByID($section["IBLOCK_ID"], "SECTION_DELETE"), array("CONFIRM" => $confirm));
 
-        return static::areaForIBlockSection($template, $section);
+        return static::areaForIBlockSection($componentOrTemplate, $section);
     }
 
     /**
-     * @param CBitrixComponentTemplate $template
+     * @param CBitrixComponentTemplate|CBitrixComponent $componentOrTemplate
      * @param $section
      * @return string
      */
-    public static function editAndDeleteIBlockSection($template, $section)
+    public static function editAndDeleteIBlockSection($componentOrTemplate, $section)
     {
-        static::editIBlockSection($template, $section);
-    
-        return static::deleteIBlockSection($template, $section);
+        static::editIBlockSection($componentOrTemplate, $section);
+
+        return static::deleteIBlockSection($componentOrTemplate, $section);
     }
 
     /**
-     * @param CBitrixComponentTemplate $template
+     * @param CBitrixComponentTemplate|CBitrixComponent $componentOrTemplate
      * @param $section
      * @return string
      */
-    public static function areaForIBlockSection($template, $section)
+    public static function areaForIBlockSection($componentOrTemplate, $section)
     {
-        return static::getEditArea($template, 'iblock_section', $section);
+        return static::getEditArea($componentOrTemplate, 'iblock_section', $section);
     }
     
     /**
-     * @param CBitrixComponentTemplate $template
+     * @param CBitrixComponentTemplate|CBitrixComponent $componentOrTemplate
      * @param $element
      * @param string $label
      * @return string
      */
-    public static function editHLBlockElement($template, $element, $label = null)
+    public static function editHLBlockElement($componentOrTemplate, $element, $label = null)
     {
         $label = $label ?: Loc::getMessage("ARRILOT_BITRIX_HERMITAGE_EDIT_HLBLOCK_ELEMENT_LABEL");
 
@@ -218,19 +218,19 @@ class Action
         $linkTemplate = '/bitrix/admin/highloadblock_row_edit.php?ENTITY_ID=%s&ID=%s&lang=ru&bxpublic=Y';
         $link = sprintf($linkTemplate, (int) $element["HLBLOCK_ID"], (int) $element["ID"]);
 
-        $template->AddEditAction('hlblock_element_' . $element['ID'], $link, $label);
+        $componentOrTemplate->AddEditAction('hlblock_element_' . $element['ID'], $link, $label);
 
-        return static::areaForHLBlockElement($template, $element);
+        return static::areaForHLBlockElement($componentOrTemplate, $element);
     }
     
     /**
-     * @param CBitrixComponentTemplate $template
+     * @param CBitrixComponentTemplate|CBitrixComponent $componentOrTemplate
      * @param $element
      * @param string $label
      * @param string $confirm
      * @return string
      */
-    public static function deleteHLBlockElement($template, $element, $label = null, $confirm = null)
+    public static function deleteHLBlockElement($componentOrTemplate, $element, $label = null, $confirm = null)
     {
         $label = $label ?: Loc::getMessage('ARRILOT_BITRIX_HERMITAGE_DELETE_HLBLOCK_ELEMENT_LABEL');
         $confirm = $confirm ?: Loc::getMessage('ARRILOT_BITRIX_HERMITAGE_DELETE_HLBLOCK_ELEMENT_CONFIRM');
@@ -250,33 +250,33 @@ class Action
         $linkTemplate = '/bitrix/admin/highloadblock_row_edit.php?action=delete&ENTITY_ID=%s&ID=%s&lang=ru';
         $link = sprintf($linkTemplate, (int) $element["HLBLOCK_ID"], (int) $element["ID"]);
 
-        $template->AddDeleteAction('hlblock_element_' . $element['ID'], $link, $label, array("CONFIRM" => $confirm));
+        $componentOrTemplate->AddDeleteAction('hlblock_element_' . $element['ID'], $link, $label, array("CONFIRM" => $confirm));
 
-        return static::areaForHLBlockElement($template, $element);
+        return static::areaForHLBlockElement($componentOrTemplate, $element);
     }
 
     /**
-     * @param CBitrixComponentTemplate $template
+     * @param CBitrixComponentTemplate|CBitrixComponent $componentOrTemplate
      * @param $element
      *
      * @return string
      */
-    public static function editAndDeleteHLBlockElement($template, $element)
+    public static function editAndDeleteHLBlockElement($componentOrTemplate, $element)
     {
-        static::editHLBlockElement($template, $element);
-        static::deleteHLBlockElement($template, $element);
+        static::editHLBlockElement($componentOrTemplate, $element);
+        static::deleteHLBlockElement($componentOrTemplate, $element);
 
-        return static::deleteHLBlockElement($template, $element);
+        return static::deleteHLBlockElement($componentOrTemplate, $element);
     }
 
     /**
-     * @param CBitrixComponentTemplate $template
+     * @param CBitrixComponentTemplate|CBitrixComponent $componentOrTemplate
      * @param $element
      * @return string
      */
-    public static function areaForHLBlockElement($template, $element)
+    public static function areaForHLBlockElement($componentOrTemplate, $element)
     {
-        return static::getEditArea($template, 'hlblock_element', $element);
+        return static::getEditArea($componentOrTemplate, 'hlblock_element', $element);
     }
 
     /**
